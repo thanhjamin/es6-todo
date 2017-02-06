@@ -244,16 +244,17 @@ class ToDoElement {
     obj.val ? element.value = obj.val : "";
     obj.parent ? obj.parent.appendChild(element) : "";
     
-    if(obj.attributes) 
+    if(obj.attributes) {
       for(let [key, value] of Object.entries(obj.attributes)) {
         element[key] = value; 
       }
+    }
 
     if(obj.eventListener) {
       for(let i = 0; i < obj.eventListener.length; i++) {
         element.addEventListener(obj.eventListener[i].type, obj.eventListener[i].action);
       }
-
+    }
     this.element = element;
   }
 }
