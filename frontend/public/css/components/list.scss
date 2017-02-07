@@ -1,0 +1,75 @@
+.todo-list {
+  position: relative;
+  width: 300px;
+  min-height: 320px;
+  float: left;
+  margin: 0px 20px 20px 0px;
+  background: $white;
+  
+  .todo-task-wrapper {
+    margin: 10px 10px 10px 0px;
+    height: 20px;
+
+    &:last-child {
+      margin-bottom: 35px;
+    }
+    
+    .completed {
+      text-decoration: line-through;
+      color: $greyed-out;
+    }
+  }
+}
+
+.edit-mode {
+  .delete-btn {
+    display: block;
+  }
+
+  .todo-task-wrapper input[type="text"] {
+    padding: 0px;
+  }
+
+  .delete-task {
+    display: block;
+    visibility: visible;
+    margin-left: 5px;
+    padding-left: 2px;
+  }
+
+  .show-complete {
+    display: none;
+  }
+
+  input[type="checkbox"] {
+    display: none;
+  }
+
+  .fa-minus-circle {
+    @include fade-in;
+  }  
+}
+
+#app-title {
+  float: left;
+}
+
+.hide {
+  display: none;
+}
+
+.fa-plus, .fa-lock {
+  padding-left: 10px;
+  color: $greyed-out;
+  font-size: $icon-font-size;
+  width: 20px;
+}
+
+.delete-task {
+  float: left;
+  width: 15px;
+  height: 15px;
+  color: $red;
+  margin: 0px 10px 0px -20px;
+  visibility: hidden;
+}

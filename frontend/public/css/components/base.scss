@@ -2,8 +2,40 @@
 // variables
 // ---------------------------------------------------------------
 
+// fonts
 $font-family-body: Helvetica, Arial, sans-serif;
 $font-family-header: Helvetica, Arial, sans-serif;
+$base-font-size: 16px;
+$icon-font-size: 14px;
+
+// colors
+$red: #ff0000;
+$white: #fff;
+$light-grey: #e0e0e0;
+$orange-theme: #FF7913;
+$greyed-out:  #a9a9a9;
+
+// animations
+@mixin vendor-prefixes($property, $values) {
+    -webkit-#{$property}: #{$values};
+    -moz-#{$property}: #{$values};
+    -ms-#{$property}: #{$values};
+    -o-#{$property}: #{$values};
+    #{$property}: #{$values};      
+}
+
+@mixin fade-in {
+  @include vendor-prefixes(animation, fadein 0.5s)
+}
+
+@keyframes fadein {
+  from {
+      opacity:0;
+  }
+  to {
+      opacity:1;
+  }
+}
 
 // ---------------------------------------------------------------
 // page base
@@ -25,6 +57,9 @@ body {
   padding: 0;
   height: 100%;
   font-family: $font-family-body;
+  background-color: $light-grey;
+  padding: 20px;
+
 }
 
 h1,

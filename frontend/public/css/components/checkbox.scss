@@ -1,3 +1,5 @@
-.checkbox {
-
+input[type='checkbox'] {
+  @include fade-in;
+  float: left;
+  margin-right: 10px;  
 }

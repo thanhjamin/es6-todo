@@ -1,3 +1,59 @@
-.button {
+.btn {
+  border: none;
+  color: $white;
+  font-size: $base-font-size;
+  font-family: $font-family-body;
 
+  &#create-list {
+    padding: 12px 20px;
+    margin: 20px;
+    background-color: $orange-theme;
+
+    &:focus {
+      outline: none;
+    }
+  
+    .fa-plus {
+      color: $white;
+    }
+  }
+
+  &.edit-btn {
+    float: right;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background-color: transparent;
+    font-weight: bold;
+    
+    &:focus {
+      outline: none;
+    }
+
+    &::before {
+      font-family: fontAwesome;  
+    }
+  }
+
+  &.bottom-btn {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    margin: auto;
+    border: none;
+    padding: 10px 0px 5px;
+    background-color: transparent;
+    color: $orange-theme;
+    font-size: $icon-font-size;
+
+    &:focus {
+      outline: none;
+    }
+
+    &.delete-btn {
+      display: none;
+    }
+  }
 }

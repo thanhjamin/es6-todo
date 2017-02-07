@@ -16,7 +16,7 @@ class ToDoApp {
 
   createTodoList() {
     this.listNum++;
-    localStorage.setItem(`list-${this.listNum}`, JSON.stringify([{title: "Untitled"}]));
+    localStorage.setItem(`list-${this.listNum}`, JSON.stringify([{title: 'Untitled'}]));
     this.buildToDoList(`list-${this.listNum}`);
   }
 
@@ -26,21 +26,22 @@ class ToDoApp {
 
     const list = new ToDoElement({
       type: 'section',
+      classes: ['todo-list'],
       attributes: { id: listId },
       parent: container
     });
     const header = new ToDoElement ({
       type: 'input',
       classes: ['list-header'],
-      val: storedData[0].title ? storedData[0].title : "Untitled",
-      attributes: {disabled: true},
-      eventListener: [{ type: 'keydown', action: (e) => { this.editHeader(header.element) } }],
+      val: storedData[0].title ? storedData[0].title : 'Untitled',
+      attributes: {disabled: true, type: 'text'},
+      eventListener: [{ type: 'keydown', action: (e) => { this.editHeader(header.element, listId) } }],
       parent: list.element
     });
     const editBtn = new ToDoElement ({
       type: 'button',
-      classes: ["edit-btn", "fa", "fa-pencil"],
-      content: " Edit",
+      classes: ['edit-btn', 'btn', 'fa', 'fa-pencil'],
+      content: ' Edit',
       eventListener: [{ type: 'click', action: () => this.toggleEdit(listId)}],
       parent: list.element
     });
@@ -51,8 +52,7 @@ class ToDoApp {
     });
     const input = new ToDoElement({
       type: 'input',
-      attributes: {type: 'text', placeholder: 'Enter New Task'},
-      classes: ['new-todo'],
+      attributes: {type: 'text', placeholder: 'Enter New Task', id: 'new-todo'},
       eventListener: [{ 
         type: 'keypress', 
         action: (e) => {
@@ -71,14 +71,14 @@ class ToDoApp {
     });
     const deleteBtn = new ToDoElement({
       type: 'button',
-      classes: ['bottom-btn', 'delete-btn'],
+      classes: ['bottom-btn', 'btn', 'delete-btn'],
       content: 'Delete List',
       eventListener: [{ type: 'click', action: () => this.deleteTodoList(deleteBtn.element)}],
       parent: list.element
     });
     const completeBtn = new ToDoElement({
       type: 'button',
-      classes: ['bottom-btn'],
+      classes: ['bottom-btn', 'btn'],
       content: 'Show Completed',
       eventListener: [{ type: 'click', action: () => this.toggleComplete(completeBtn.element)}],
       parent: list.element
@@ -103,10 +103,10 @@ class ToDoApp {
     section.remove();
   }
 
-  editHeader(element) {
-    let storedList = JSON.parse(localStorage[`list-${this.listNum}`]);
+  editHeader(element, listId) {
+    let storedList = JSON.parse(localStorage[listId]);
     storedList.splice(0, 1, {title: element.value})
-    localStorage.setItem(`list-${this.listNum}`, JSON.stringify(storedList));  
+    localStorage.setItem(listId, JSON.stringify(storedList));  
   }
 
   toggleEdit(listId) {
@@ -115,13 +115,13 @@ class ToDoApp {
     const iconInput = currentList.querySelector('i');
     const listHeader = currentList.querySelector('.list-header');
     const allListItems = currentList.querySelectorAll('.todo-task-wrapper .task-item');
-    const taskInput = currentList.querySelector('.new-todo');
+    const taskInput = currentList.querySelector('#new-todo');
 
     currentList.classList.toggle('edit-mode');
     editBtn.classList.toggle('fa-pencil');
     
-    if(currentList.classList[0] === 'edit-mode') {
-      editBtn.innerHTML = "Done";
+    if(currentList.classList.contains('edit-mode')) {
+      editBtn.innerHTML = 'Done';
       iconInput.classList.remove('fa-plus');
       iconInput.classList.add('fa-lock');
       taskInput.disabled = true;
@@ -130,7 +130,7 @@ class ToDoApp {
         task.disabled = false;
       }
     } else {
-      editBtn.innerHTML = " Edit";
+      editBtn.innerHTML = ' Edit';
       iconInput.classList.add('fa-plus');
       iconInput.classList.remove('fa-lock');
       taskInput.disabled = false;
@@ -143,19 +143,19 @@ class ToDoApp {
 
   toggleComplete(element) {
     let allCheckBoxes = element.parentNode.querySelectorAll('input[type="checkbox"]');
-    element.classList.toggle("show-complete");  
+    element.classList.toggle('show-complete');  
 
-    if(element.classList.contains("show-complete")) {
+    if(element.classList.contains('show-complete')) {
       for(let i = 0; i < allCheckBoxes.length; i++) {
         if(!allCheckBoxes[i].checked)
           allCheckBoxes[i].parentNode.classList.add('hide');
       }
-      element.innerHTML = "Show All";
+      element.innerHTML = 'Show All';
     } else {
       for(let i = 0; i < allCheckBoxes.length; i++) {
         allCheckBoxes[i].parentNode.classList.remove('hide');
       }
-      element.innerHTML = "Show Completed"; 
+      element.innerHTML = 'Show Completed'; 
     }
   }
 }
@@ -167,7 +167,7 @@ class ToDoTask {
     this.taskCompleted = obj.taskCompleted;
     this.taskList =  document.getElementById(this.taskListId);
     this.allDeleteBtns = this.taskList.querySelectorAll('.delete-item-btn');
-    this.taskText = this.taskContent || this.taskList.querySelector('.new-todo').value;
+    this.taskText = this.taskContent || this.taskList.querySelector('#new-todo').value;
     this.index;
   }
 
@@ -179,7 +179,7 @@ class ToDoTask {
     });
     const deleteTaskBtn = new ToDoElement({
       type: 'i',
-      classes: ['delete-task-btn', 'fa', 'fa-minus-circle'],
+      classes: ['delete-task', 'fa', 'fa-minus-circle'],
       eventListener: [{ type: 'click', action: () => this.updateTaskItem(deleteTaskBtn.element)}],
       parent: taskWrapper.element
     });
@@ -201,7 +201,7 @@ class ToDoTask {
       type: 'input',
       attributes: { type: 'text', disabled: true },
       val: this.taskText,
-      classes: this.taskCompleted ? ['task-item', "completed"] : ['task-item'],
+      classes: this.taskCompleted ? ['task-item', 'completed'] : ['task-item'],
       eventListener: [{ 
         type: 'keydown', 
         action: () => { this.updateTaskItem(taskItem.element)}
@@ -220,12 +220,12 @@ class ToDoTask {
         this.index = i+1;  
     }
 
-    if(elementClass === "task-item" || elementClass === "task-checkbox") {
-      if(elementClass === "task-checkbox")
+    if(elementClass === 'task-item' || elementClass === 'task-checkbox') {
+      if(elementClass === 'task-checkbox')
         element = element.parentNode.querySelector('.task-item');
 
-      element.classList.contains("completed") ? storedTask.splice(this.index, 1, {content: element.value, completed: true}) :  storedTask.splice(this.index, 1, {content: element.value, completed: false});
-    } else if (elementClass === "delete-task-btn") {
+      element.classList.contains('completed') ? storedTask.splice(this.index, 1, {content: element.value, completed: true}) :  storedTask.splice(this.index, 1, {content: element.value, completed: false});
+    } else if (elementClass === 'delete-task') {
       storedTask.splice(this.index, 1);
       element.parentNode.remove();
     }

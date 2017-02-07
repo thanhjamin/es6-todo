@@ -1,3 +1,33 @@
-.input {
+input[type="text"] {
+  width: 100%;
+  font-size: $base-font-size;
+  font-family: $font-family-body;
+  padding: 0px;
+  border: 0;
+  outline: 0;
+  background: transparent;
 
-}
+  &.list-header {
+    padding: 10px;
+    background: $orange-theme;
+    color: $white;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &:focus {
+    outline: none;   
+  }
+
+  &.task-item {
+    width: 85%;
+  }
+
+  &#new-todo {
+    padding: 10px 10px 10px 30px;
+    margin-left: -20px;
+    border-bottom: 1px solid $light-grey;
+  }
+} 
